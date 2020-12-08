@@ -12,6 +12,8 @@ class Tabelas{
                     '    servico varchar(20) NOT NULL, ' +
                     '    status varchar(20) NOT NULL, ' +
                     '    observacoes varchar NULL, ' +
+                    '    data_agendamento timestamp NOT NULL, ' +
+                    '    data_criacao timestamp NOT NULL, ' +
                     '    CONSTRAINT atendimentos_pk PRIMARY KEY (id) '+
                     '); ' 
 
