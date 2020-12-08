@@ -35,11 +35,12 @@ class Atendimento {
         }else{
             const parametros = [cliente, pet, servico, status, observacoes, dataAgenamento, dataCriacao]
 
-            conexao.query(sql, parametros, (erro, resultados) => {
+            conexao.query(sql, parametros, (erro, resultado) => {
                 if(erro){
                     res.status(400).json(erro)
-                }else {                
-                    res.status(201).json(resultados)
+                }else {
+                    const id = resultado.rows[0].id
+                    res.status(201).json({...atendimento, id})
                 }            
             })
         }        
@@ -82,7 +83,18 @@ class Atendimento {
             if (erro) {
                 res.status(400).json(erro)
             } else {
-                res.status(200).json(resultado)
+                res.status(200).json({...valores, id})
+            }
+        })
+    }
+
+    deleta(id, res){
+        const sql = 'DELETE FROM atendimentos WHERE id=$1 RETURNING id; '
+        conexao.query(sql, [id], (erro, resultado) => {
+            if (erro) {
+                res.status(400).json(erro)
+            } else {
+                res.status(200).json({id})
             }
         })
     }
