@@ -1,5 +1,6 @@
 const conexao = require('../infraestrutura/conexao')
 const moment = require('moment')
+const utilModels = require('./util.models')
 
 class Atendimento {
     adiciona(atendimento, res) {
@@ -66,6 +67,22 @@ class Atendimento {
                 res.status(400).json(erro)
             } else {
                 res.status(200).json(atendimento)
+            }
+        })
+    }
+
+    altera(id, valores, res){
+        if(valores.data_agendamento){
+            valores.data_agendamento = moment(valores.data_agendamento, 'DD/MM/YYYY HH:mm').format('YYYY-MM-DD HH:mm:ss')
+        }
+
+        const consulta = utilModels.createUpdateQuery('atendimentos', 'id', id, valores)        
+        
+        conexao.query(consulta.sql, consulta.params, (erro, resultado) => {
+            if (erro) {
+                res.status(400).json(erro)
+            } else {
+                res.status(200).json(resultado)
             }
         })
     }
